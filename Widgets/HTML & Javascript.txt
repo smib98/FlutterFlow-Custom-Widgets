@@ -1,0 +1,40 @@
+import 'package:flutter/material.dart';
+import 'package:webviewx_plus/webviewx_plus.dart';
+
+class CustomHtmlView extends StatefulWidget {
+  const CustomHtmlView({
+    Key? key,
+    required this.htmlContent,
+    this.width,
+    this.height,
+  }) : super(key: key);
+
+  final String htmlContent;
+  final double? width;
+  final double? height;
+
+  @override
+  _CustomHtmlViewState createState() => _CustomHtmlViewState();
+}
+
+class _CustomHtmlViewState extends State<CustomHtmlView> {
+  late WebViewXController webviewController;
+
+  @override
+  Widget build(BuildContext context) {
+    return WebViewX(
+      key: UniqueKey(),
+      width: widget.width ?? MediaQuery.of(context).size.width,
+      height: widget.height ?? MediaQuery.of(context).size.height,
+      initialContent: widget.htmlContent,
+      initialSourceType: SourceType.html,
+      javascriptMode: JavascriptMode.unrestricted,
+      onWebViewCreated: (controller) {
+        webviewController = controller;
+      },
+      webSpecificParams: WebSpecificParams(
+        webAllowFullscreenContent: true,
+      ),
+    );
+  }
+}
